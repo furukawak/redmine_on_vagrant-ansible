@@ -1,0 +1,4 @@
+- name: make ~/.gemrc
+  template: src=gemrc.j2
+            dest=~/.gemrc
+  tags: gemrc

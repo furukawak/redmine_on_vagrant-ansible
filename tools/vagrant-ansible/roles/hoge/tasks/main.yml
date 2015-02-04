@@ -1,0 +1,27 @@
+- name: hoge
+  shell: ~/.rbenv/shims/passenger-config --root
+  register: passenger_root
+  ignore_errors: true
+  tags: hoge
+
+- name: hogehoge
+  debug: var=passenger_root
+  tags: hoge
+
+- name: hogehoge
+  debug: var=passenger_root.stdout
+  tags: hoge
+
+- name: fuga
+  shell: ~/.rbenv/shims/passenger-config --ruby-command | grep Command | head -1
+        | tr '*' ' ' | sed -e 's/\s\+//' | sed -e 's/Command://' | tr '*' ' ' | sed -e 's/\s\+//'
+  register: passenger_default_ruby
+  tags: hoge
+
+- name: fugafuga
+  debug: var=passenger_default_ruby
+  tags: hoge
+
+- name: hogehogehoge
+  template: src=hoge.j2 dest=~/hoge
+  tags: hoge

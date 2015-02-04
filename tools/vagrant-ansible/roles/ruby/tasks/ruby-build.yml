@@ -1,0 +1,6 @@
+- name: git clone 'ruby-build'
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest=~/.rbenv/plugins/ruby-build
+  tags:
+    - ruby-build
+    - ruby

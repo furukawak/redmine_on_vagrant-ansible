@@ -1,0 +1,45 @@
+- name: install required softwares for passenger install apache2 module
+  yum: name={{ item }} state=installed
+  with_items:
+    - gcc-c++
+    - openssl-devel
+    - zlib-devel
+    - curl-devel
+    - mysql-devel
+    - readline-devel
+    - libevent-devel
+  sudo: true
+  tags: passenger
+
+- name: gem install passenger
+  gem: name=passenger executable=~/.rbenv/shims/gem user_install=false
+  tags: passenger
+
+- name: check already installed passenger
+  shell: ~/.rbenv/shims/passenger-config --root
+  register: passenger_root
+  ignore_errors: true
+  tags: passenger
+
+- name: find passenger module
+  stat: path={{ passenger_root.stdout }}/buildout/apache2/mod_passenger.so
+  register: passenger_module
+  tags: passenger
+
+- name: passenger-install-apache2-module
+  shell: ~/.rbenv/shims/passenger-install-apache2-module --auto
+  when: passenger_module.stat.exists != True
+  tags: passenger
+
+- name: passenger default ruby
+  shell: ~/.rbenv/shims/passenger-config --ruby-command | grep Command | head -1
+         | tr '*' ' ' | sed -e 's/\s\+//' | sed -e 's/Command://' | tr '*' ' ' | sed -e 's/\s\+//'
+  register: passenger_default_ruby
+  tags: passenger
+
+
+- name: make /etc/httpd/conf.d/passenger.conf
+  template: src=passenger.conf.j2
+            dest=/etc/httpd/conf.d/passenger.conf
+  sudo: true
+  tags: passenger

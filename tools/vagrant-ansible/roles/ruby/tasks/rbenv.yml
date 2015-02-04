@@ -1,0 +1,13 @@
+- name: git clone 'rbenv'
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest=~/.rbenv
+  tags:
+    - rbenv
+    - ruby
+
+- name: add rbenv initialization to profile
+  template: src=bash_profile.j2
+            dest=~/.bash_profile
+  tags:
+    - rbenv
+    - ruby

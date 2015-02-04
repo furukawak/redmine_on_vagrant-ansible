@@ -1,0 +1,3 @@
+- name: Rails {{ rails_version }} install
+  gem: name=rails version={{ rails_version }} executable=~/.rbenv/shims/gem user_install=false
+  tags: rails

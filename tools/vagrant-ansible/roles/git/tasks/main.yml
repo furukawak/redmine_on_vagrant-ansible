@@ -1,0 +1,4 @@
+- name: install Git
+  yum: name=git state=installed
+  sudo: true
+  tags: git

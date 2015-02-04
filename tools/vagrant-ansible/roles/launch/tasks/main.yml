@@ -1,0 +1,4 @@
+- name: start httpd
+  action: service name=httpd state=started
+  sudo: true
+  tags: launch

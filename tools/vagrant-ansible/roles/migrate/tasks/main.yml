@@ -1,0 +1,27 @@
+- name: yum install MySQL-python
+  yum: name={{ item }} state=installed
+  with_items:
+    - MySQL-python
+  sudo: true
+  tags: migrate
+
+- name: create database {{ database_name }}
+  mysql_db: db={{ database_name }} login_user={{ db_user }} login_password={{ db_user_password }} state=present
+  tags: migrate
+
+- name: gem install execjs, therubyracer
+  gem: name={{ item }} executable=~/.rbenv/shims/gem user_install=false
+  with_items:
+    - execjs
+    - therubyracer
+
+- name: generate secret token
+  shell: ~/.rbenv/shims/rake generate_secret_token chdir={{ synced_folder }}
+  tags: migrate
+
+- name: migrate {{ database_name }}
+  shell: ~/.rbenv/shims/rake db:migrate RAILS_ENV={{ rails_env }} chdir={{ synced_folder }}
+  tags: migrate
+
+#- name: rake db:data:load
+#  shell: ~/.rbenv/shims/rake db:data:load RAILS_ENV={{ rails_env }} chdir={{ synced_folder }}

@@ -1,0 +1,4 @@
+- name: iptables stop
+  action: service name=iptables state=stopped
+  sudo: true
+  tags: iptables

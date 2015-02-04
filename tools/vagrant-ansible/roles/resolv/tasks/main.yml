@@ -1,0 +1,4 @@
+- name: modify /etc/resolv.conf
+  lineinfile: dest=/etc/resolv.conf state=present line="option single-request-reopen"
+  sudo: true
+  tags: resolv

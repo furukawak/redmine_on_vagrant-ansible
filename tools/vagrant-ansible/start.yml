@@ -1,0 +1,23 @@
+- hosts: redmine234.vagrant
+  user: vagrant
+  roles:
+    - gemrc
+    - resolv
+    - httpd
+    - mysql
+    - git
+    - ruby
+    - passenger
+    - bundler
+    - migrate
+    - iptables
+    - launch
+  vars:
+    host_name: redmine234.vagrant
+    ruby_version: 2.0.0-p353
+    rails_version: 3.2.13
+    synced_folder: /var/www/redmine-2.3.4/current
+    db_user: root
+    db_user_password: ""
+    database_name: redmine
+    rails_env: production
